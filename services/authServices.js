@@ -44,8 +44,8 @@ exports.signup = async ({
   });
   delete user?._doc?.password;
 
-  const streamClient = new StreamClient();
-  await np.createUser(user.id, firstname, lastname);
+const streamClient = new StreamClient();
+await streamClient.createUser(user.id, firstname, lastname);
   return user;
 };
 
