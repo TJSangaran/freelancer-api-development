@@ -19,7 +19,7 @@ exports.getAllWithdrawalRequests = () => {
         {
             $project: {
                 _id: 1,
-                ammount: 1,
+                amount: 1,
                 createdAt: 1,
                 status: 1,
                 userName: { $concat:['$_user.firstname', ' ', '$_user.lastname']},
@@ -34,16 +34,16 @@ exports.getWithdrawalRequest = async ({ withdrawalRequestId }) => {
     return WithdrawalRequest.findById(withdrawalRequestId);
 };
 
-exports.createWithdrawalRequest = async ({ userId, ammount }) => {
+exports.createWithdrawalRequest = async ({ userId, amount }) => {
     const user = await User.findOne({ _id: userId });
 
-    if (ammount > user.balance) {
-        throw new Error("Insufficent balance");
+    if (amount > user.balance) {
+        throw new Error("Insufficient balance");
     }
 
     const withdrawalRequest = new WithdrawalRequest({
         userId,
-        ammount,
+        amount,
     });
     return withdrawalRequest.save();
 };
@@ -54,16 +54,16 @@ exports.updateStatus = async ({ withdrawalRequestId, status }) => {
             withdrawalRequestId
         );
         const user = await User.findOne({ _id: withdrawalRequest.userId });
-        if (withdrawalRequest.ammount > user.balance) {
-            throw new Error("Insufficent balance");
+        if (withdrawalRequest.amount > user.balance) {
+            throw new Error("Insufficient balance");
         }
         const transaction = new Transaction({
             userId: withdrawalRequest.userId,
-            ammount: withdrawalRequest.ammount,
+            amount: withdrawalRequest.amount,
             type: "withdrawal",
         });
         await transaction.save();
-        await transactionService.updateUserBalance(withdrawalRequest.userId, withdrawalRequest.ammount,"withdrawal")
+        await transactionService.updateUserBalance(withdrawalRequest.userId, withdrawalRequest.amount,"withdrawal")
     }
     return WithdrawalRequest.updateOne(
         { _id: withdrawalRequestId },

@@ -125,8 +125,8 @@ exports.deleteJob = ({ jobId }) => {
 exports.updateStatus = async ({ jobId, status }) => {
     if (status == "completed") {
         const job = await JobPost.findById(jobId)
-        await transactionService.createTransaction({ userId: job.errandId, ammount: job.price, type: "deposit" })
-        await transactionService.createTransaction({ userId: job.jobPosterId, ammount: job.price, type: "withdrawal" })
+        await transactionService.createTransaction({ userId: job.errandId, amount: job.price, type: "deposit" })
+        await transactionService.createTransaction({ userId: job.jobPosterId, amount: job.price, type: "withdrawal" })
     }
     return JobPost.updateOne({ _id: jobId }, {
         $set: {

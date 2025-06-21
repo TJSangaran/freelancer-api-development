@@ -103,7 +103,7 @@ const updateStatus = (req, res) => {
         })
         .catch((err) => {
             console.log(err)
-            return res.status(500).send("Internal Server Error")
+            return res.status(400).send(err.message)
         })
 }
 

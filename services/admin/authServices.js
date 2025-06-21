@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 exports.login = async (email, password, rememberMe) => {
+    console.log(email, password, rememberMe);
     if (email === 'admin@gmail.com' && password === 'Admin@123') {
+        console.log("Credencial Matched");
         const encryptedUser = {
             user: {
                 _id: '123456',

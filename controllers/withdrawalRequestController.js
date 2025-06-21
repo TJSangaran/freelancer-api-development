@@ -23,35 +23,32 @@ const getWithdrawalRequest = (req, res) => {
         })
 }
 
-const createWithdrawalRequest = (req, res, next) => {
-    const { userId, ammount } = req.body
-    console.log( { userId, ammount })
-    if ( !userId || !ammount  ) {
-        return res.status(500).send("Bad Request")
+const createWithdrawalRequest = async (req, res, next) => {
+    try {
+        const { userId, amount } = req.body
+        console.log({ userId, amount })
+        if (!userId || !amount) {
+            return res.status(400).send("Bad Request")
+        }
+        await withdrawalRequestService.createWithdrawalRequest({ userId, amount })
+        res.status(201).json({ status: true })
+    } catch (err) {
+        next(err)
     }
-    withdrawalRequestService.createWithdrawalRequest({ userId, ammount })
-        .then(() => {
-            res.status(201).json({ status: true })
-        })
-        .catch((err) => {
-            next({error:"Insufficent balance"})
-        })
 }
 
-const updateStatus = (req, res, next) => {
-    const { withdrawalRequestId } = req.params
-    const { status } = req.body
-    if ( status === undefined ) {
-        return res.status(500).send("Bad Request")
+const updateStatus = async (req, res, next) => {
+    try {
+        const { withdrawalRequestId } = req.params
+        const { status } = req.body
+        if (status === undefined) {
+            return res.status(400).send("Bad Request")
+        }
+        await withdrawalRequestService.updateStatus({ withdrawalRequestId, status })
+        res.status(201).json({ status: true })
+    } catch (err) {
+        next(err)
     }
-    withdrawalRequestService.updateStatus({ withdrawalRequestId, status })
-        .then(() => {
-            res.status(201).json({ status: true })
-        })
-        .catch((err) => {
-            console.log(err)
-            next({error:"Insufficent balance"})
-        })
 }
 
 module.exports = {

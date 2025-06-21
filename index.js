@@ -41,6 +41,7 @@ app.use(express.json());
 app.use(cors())
 
 //Routes
+app.use('/admin', require('./routes/adminRoutes'))
 app.use('/', require('./routes/index'))
 
 app.use(errorHandler);

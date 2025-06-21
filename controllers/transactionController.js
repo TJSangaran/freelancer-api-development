@@ -36,11 +36,11 @@ const getTransactionsByUser = (req, res) => {
 }
 
 const createTransaction = (req, res) => {
-    const { userId, ammount, type } = req.body
-    if ( !userId || !ammount || !type  ) {
+    const { userId, amount, type } = req.body
+    if ( !userId || !amount || !type  ) {
         return res.status(500).send("Bad Request")
     }
-    transactionService.createTransaction({ userId, ammount, type })
+    transactionService.createTransaction({ userId, amount, type })
         .then((data) => {
             res.status(201).json(data)
         })
@@ -50,9 +50,24 @@ const createTransaction = (req, res) => {
         })
 }
 
+const deposit = (req, res, next) => {
+    const { userId, amount } = req.body;
+    if (!userId || !amount) {
+        return res.status(400).send("Bad Request");
+    }
+    transactionService.deposit({ userId, amount })
+        .then(() => {
+            res.status(201).json({ status: true });
+        })
+        .catch((err) => {
+            next(err);
+        });
+};
+
 module.exports = {
 	getAllTransactions,
 	getTransaction,
 	createTransaction,
 	getTransactionsByUser,
+	deposit
 }

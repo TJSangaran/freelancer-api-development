@@ -5,7 +5,6 @@ exports.getErrands = () => {
         {
             $match: {
                 isErrand: true,
-                readyToWork: true,
                 banned: false
             }
         }

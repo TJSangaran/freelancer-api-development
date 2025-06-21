@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 module.exports = {
-    ensureUser: function (req, res, next) {
+    protect: function (req, res, next) {
         let token
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             try {

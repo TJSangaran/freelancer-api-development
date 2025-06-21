@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { ensureUser } = require('../middlewares/authMiddleware')
+const { protect } = require('../middlewares/authMiddleware')
 
 router.use('/auth', require('./authRoute'));
 
-router.use(ensureUser)
+router.use(protect)
 router.use('/user', require('./userRoute'));
 router.use('/jobs', require('./jobsRoute'));
 router.use('/transactions', require('./transactionsRoute'));

@@ -7,7 +7,7 @@ const withdrawalRequestSchema = mongoose.Schema(
             ref: 'user',
             required: true
         },
-        ammount: {
+        amount: {
             type: Number,
             required: true
         },
