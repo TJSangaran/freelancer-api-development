@@ -1,4 +1,5 @@
 const transactionService = require('../services/transactionService');
+const mongoose = require('mongoose');
 
 const getAllTransactions = (req, res) => {
 	transactionService.getAllTransactions()
@@ -25,6 +26,9 @@ const getTransaction = (req, res) => {
 
 const getTransactionsByUser = (req, res) => {
     const { userId } = req.params
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.json([]);
+    }
     transactionService.getTransactionsByUser({ userId })
         .then((data) => {
             res.json(data)

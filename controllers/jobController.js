@@ -11,16 +11,15 @@ const getAllJobs = (req, res) => {
 		})
 }
 
-const getJob = (req, res) => {
-    const { jobId } = req.params
-    jobService.getJob({ jobId })
-        .then((data) => {
-            res.json(data)
-        })
-        .catch((err) => {
-            console.log(err)
-            return res.status(500).send("Internal Server Error")
-        })
+const getJob = async (req, res) => {
+    try {
+        const { jobId } = req.params
+        const data = await jobService.getJob({ jobId })
+        res.json(data)
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send(err.message)
+    }
 }
 
 const getErrandJobs = (req, res) => {

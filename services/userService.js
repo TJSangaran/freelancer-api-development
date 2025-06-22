@@ -14,6 +14,9 @@ exports.getAllUsers = (_id) => {
 }
 
 exports.getMe = (_id) => {
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return Promise.resolve(null);
+    }
     return User.aggregate([
         {
             $match: { _id: mongoose.Types.ObjectId(_id) }

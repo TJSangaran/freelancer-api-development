@@ -22,6 +22,10 @@ exports.signup = async ({
   accountname,
   bankname,
 }) => {
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new Error("User with this email already exists.");
+  }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const profileColor = Math.floor(Math.random() * 10) + 1;
@@ -44,8 +48,8 @@ exports.signup = async ({
   });
   delete user?._doc?.password;
 
-const streamClient = new StreamClient();
-await streamClient.createUser(user.id, firstname, lastname);
+  const streamClient = new StreamClient();
+  await streamClient.createUser(user.id, firstname, lastname);
   return user;
 };
 

@@ -9,6 +9,9 @@ exports.getAllJobs = () => {
 }
 
 exports.getJob = async ({ jobId }) => {
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+        throw new Error('Invalid job ID');
+    }
     return Job.aggregate([
         {
             $match: { _id: mongoose.Types.ObjectId(jobId) }
