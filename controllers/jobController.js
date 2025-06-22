@@ -13,11 +13,11 @@ const getAllJobs = (req, res) => {
 
 const getJob = async (req, res) => {
     try {
-        const { jobId } = req.params
+    const { jobId } = req.params
         const data = await jobService.getJob({ jobId })
-        res.json(data)
+            res.json(data)
     } catch (err) {
-        console.log(err)
+            console.log(err)
         return res.status(400).send(err.message)
     }
 }
